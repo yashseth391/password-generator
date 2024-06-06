@@ -8,36 +8,63 @@ const PasswordSchema=Yup.object().shape({
   .max(16,"Should not be more than 16 characters")
   .required('Length is required')
 })
+const  [password,setpassword]=useState('')
+const [isPassGenerated,setIsPassGenerated]=useState(false)
+const [lowerCase,setLowerCase]=useState(true)
+const [upperCase,setUpperCase]=useState(false)
+const [numbers,setNumbers]=useState(false)
+const [symbols,setSymbols]=useState(false)  
 
-// const  [password,setpassword]=useState('')
-// const [isPassGenerated,setIsPassGenerated]=useState(false)
-// const [lowerCase,setLowerCase]=useState(true)
-// const [upperCase,setUpperCase]=useState(true)
-// const [NumberSchema,useNumbers]=useState(false)
-// const [symbols,useSymbols]=useState(false)
+const generatedPasswordString=(passwordLength :number) => 
+  {
+    let characterList='';
+    const upperCaseChars='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowerCaseChars='abcdefghijklmnopqrstuvwxyz'
+    const digitChars='0123456789'
+    const specialChars='!@#$%^&*_+'
 
-// const generatedPasswordString=(paswordLength :number) => 
-//   {
-//     //
-//   }
+    if(upperCase)
+      {
+        characterList +=upperCaseChars
+      }
+    if(lowerCase)
+       {
+        characterList +=lowerCaseChars
+       }
+    if(numbers) //for numbers
+      {
+        characterList +=digitChars
+      }
+    if(symbols)
+      {
+        characterList +=specialChars
+      }
 
-//   const createPaswword= (characters:string,passwordLength:number) =>  
-//     {
-//       let result='';
-//       for (let index = 0; index < passwordLength; index++) 
-//       {
-//         const characterIndex= Math.round(Math.random() *characters.length) 
-//         result +=characters[characterIndex]
+      const passwordResult=createPaswword(characterList,passwordLength)
+
+      setpassword(passwordResult)
+      setIsPassGenerated(true)
+
+  }
+
+  const createPaswword= (characters:string,passwordLength:number) =>  
+    {
+      let result='';
+      for (let index = 0; index < passwordLength; index++) 
+      {
+        const characterIndex= Math.round(Math.random() *characters.length) 
+        result +=characters[characterIndex]
         
-//       }
-//       return result 
-//     }
+      }
+      return result 
+    }
 
-//     const resetPasswordState= () =>
-//       {
-//         //
-//       }
+    const resetPasswordState= () =>
+      {
+        setpassword('')
+        setIsPassGenerated(false)
 
+      }
 export default function App() {
   return (
     <View>
