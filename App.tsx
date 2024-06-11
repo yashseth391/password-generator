@@ -73,17 +73,31 @@ export default function App() {
       <SafeAreaView style={styles.appContainer}>
         <View style={styles.formContainer}>
           <Text style={styles.title}>Password Generator</Text>
-          <Formik initialValues={{passwordlength: ''}}
-          validationSchema={PasswordSchema}
-          onSubmit={values => {
-            console.log(values);
-            generatedPasswordString(Number(values.passwordlength));}}
-          >
-            {({values, errors, touched,handleChange,handleReset, handleSubmit,isValid}) => (
+          <Formik
+            initialValues={{passwordlength: ''}}
+            validationSchema={PasswordSchema}
+            onSubmit={values => {
+              console.log(values);
+              generatedPasswordString(Number(values.passwordlength));
+            }}>
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleReset,
+              handleSubmit,
+              isValid,
+            }) => (
               <>
                 <View style={styles.inputWrapper}>
                   <View style={styles.inputColumn}>
                     <Text style={styles.heading}>Password Length</Text>
+                    {(errors.passwordlength || touched.passwordlength) && (
+                      <Text style={styles.errorText}>
+                        {errors.passwordlength}
+                      </Text>
+                    )}
                   </View>
                   <View>
                     <TextInput
@@ -92,10 +106,9 @@ export default function App() {
                       placeholder="Ex.8"
                       keyboardType="numeric"
                       onChangeText={handleChange('passwordlength')}
+                      
                     />
-                    {(errors.passwordlength || touched.passwordlength )&&
-             <Text style={styles.errorText}>{errors.passwordlength}</Text>
-           }
+                    
                   </View>
                 </View>
                 <View style={styles.inputWrapper}>
@@ -136,15 +149,19 @@ export default function App() {
                 </View>
                 <View style={styles.formActions}>
                   <TouchableOpacity
-                  disabled={!isValid}
+                  onPress={handleSubmit}
+                    disabled={!isValid}
                     style={styles.primaryBtn}
-                    onPress={ () => handleSubmit}>
+                    
+                    >
                     <Text style={styles.primaryBtnTxt}>generatedPassword</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
+                    disabled={!isValid}
                     style={styles.secondaryBtn}
                     onPress={() => {
-                      resetPasswordState();
+                      handleReset();
+                      resetPasswordState()
                     }}>
                     <Text style={styles.secondaryBtnTxt}>Reset</Text>
                   </TouchableOpacity>
@@ -152,12 +169,12 @@ export default function App() {
               </>
             )}
           </Formik>
-
-
         </View>
         {isPassGenerated ? (
-          <View>
-            <Text>test</Text>
+          <View style={[styles.card,styles.cardElevated]}>
+            <Text style={styles.subTitle}>Result:</Text>
+            <Text style={styles.description}>Long Press to Copy </Text>
+            <Text selectable={true}  style={styles.generatedPassword}> {password1} </Text>
           </View>
         ) : null}
       </SafeAreaView>
