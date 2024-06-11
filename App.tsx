@@ -13,6 +13,25 @@ import * as Yup from 'yup';
 import {Formik} from 'formik';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import {LogBox} from 'react-native';
+
+// Ignore log notification by message
+LogBox.ignoreLogs([
+  // Exact message
+  'Warning: componentWillReceiveProps has been renamed',
+
+  // Substring or regex match
+  /GraphQL error: .*/,
+]);
+
+// Ignore all log notifications
+LogBox.ignoreAllLogs();
+
+
+
+
+
+
 const PasswordSchema = Yup.object().shape({
   passwordlength: Yup.number()
     .min(4, 'Should be minimum of 4 characters')
